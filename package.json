@@ -1,0 +1,21 @@
+{
+  "name": "address-labels",
+  "productName": "Address Labels",
+  "version": "0.1.0",
+  "description": "Print Avery 5260 address labels from a local address book.",
+  "main": "src/main/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test \"test/unit/**/*.test.js\"",
+    "test:e2e": "playwright test --config test/e2e/playwright.config.js",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"src/shared/**\" --test-coverage-lines=90 \"test/unit/**/*.test.js\"",
+    "test:all": "npm test && npm run test:e2e",
+    "package": "electron-packager . \"Address Labels\" --platform=darwin --arch=arm64 --out=dist --overwrite --icon=build/icon --app-bundle-id=local.address-labels --ignore=\"^/(test|test-results|openspec|docs|dist|build/icon\\.(svg|png)|\\.claude|\\.codex|\\.DS_Store|addresses\\.json|settings\\.json|projects\\.json|projects\\.broken.*|settings\\.pre-projects.*|backups|logs|Christmas.*|playwright-report|addresses\\.pre-migration.*|addresses\\.broken.*)\""
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "@playwright/test": "^1.65.1",
+    "electron": "^33.0.0"
+  }
+}

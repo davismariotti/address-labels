@@ -1,0 +1,12 @@
+[
+  { "name": "The Alder Family", "address": [{ "line1": "3008 Sample Lane", "line2": "Exampleton, TX 70001", "version": 1 }] },
+  { "name": "The Alder Family", "address": [{ "line1": "2446 Circle Lane", "line2": "Sampleton, TX 70002", "version": 1 }] },
+  { "name": "The Arden Family", "address": [{ "line1": "6204 S Hill Court", "line2": "Springfield, WA 70003", "version": 1 }] },
+  { "name": "The Arden Family", "address": [{ "line1": "3446 Mill Road", "line2": "Exampleton, CA 70004", "version": 1 }] },
+  { "name": "Pip", "address": [] },
+  { "name": "Bea and Jo", "address": [{ "line1": "Acme Dental Group", "line2": "100 Example Blvd #200", "line3": "Springfield, CA 90001", "version": 1 }] },
+  { "name": "Paul and Lena Brook", "address": [{ "line1": "P.O. Box 1", "line2": "Exampleville 10000", "line3": "Freedonia", "version": 1 }] },
+  { "name": "Ned and Zoë Birch", "address": [{ "line1": "500 Mill Way", "line2": "Sampleton, CA 90002", "version": 1 }] },
+  { "name": "The Fenwick Family", "address": [{ "line1": "2232 Kapa’a Street", "line2": "Exampleton, HI 90003", "version": 1 }] },
+  { "name": "abbey and Hal Bolt", "address": [{ "line1": "2026 N Sample Avenue", "line2": "Testville, ID 70005", "version": 1 }] }
+]

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Print Labels</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="sheet.css">
+  <link rel="stylesheet" href="print.css">
+</head>
+<body>
+  <div id="dialog">
+    <div class="topbar">
+      <div class="num" id="topsummary"></div>
+      <div class="pager" id="pager">
+        <button id="prev" class="btn icon-only" type="button" aria-label="Previous sheet"></button>
+        <span id="sheetlabel" class="num" aria-live="polite"></span>
+        <button id="next" class="btn icon-only" type="button" aria-label="Next sheet"></button>
+      </div>
+    </div>
+    <div class="main">
+      <aside class="settings" aria-label="Print settings">
+        <section>
+          <label class="heading" for="start">Start at cell</label>
+          <p class="caption" id="start-help">Using a partly used sheet? Click the first free cell or type its number.</p>
+          <div class="start-row">
+            <input id="start" class="input num" type="text" inputmode="numeric" value="1" aria-describedby="start-help start-pos start-err">
+            <button id="start-dec" class="btn icon-only" type="button" aria-label="Previous cell"></button>
+            <button id="start-inc" class="btn icon-only" type="button" aria-label="Next cell"></button>
+            <span class="caption">(1–30)</span>
+          </div>
+          <div id="start-err" class="field-error" hidden></div>
+          <div id="start-pos" class="caption num"></div>
+          <div id="start-notes" class="caption"></div>
+        </section>
+        <section id="scope-section" hidden>
+          <div class="heading" id="scope-heading">Print</div>
+          <div class="segmented" id="scope" role="group" aria-labelledby="scope-heading">
+            <button type="button" data-scope="sheet" aria-pressed="true">This sheet</button>
+            <button type="button" data-scope="all" aria-pressed="false">All sheets</button>
+          </div>
+          <p class="caption" id="scope-note"></p>
+        </section>
+        <section>
+          <label class="inline"><input id="outlines" class="check" type="checkbox"> Show label outlines <span class="caption">(test page)</span></label>
+        </section>
+        <section>
+          <details id="alignment">
+            <summary><span class="chev"></span> Alignment</summary>
+            <div class="align-grid">
+              <label>Horizontal (in) <input id="nudge-x" class="input num" type="text" inputmode="decimal" value="0"></label>
+              <label>Vertical (in) <input id="nudge-y" class="input num" type="text" inputmode="decimal" value="0"></label>
+            </div>
+            <div id="nudge-err" class="field-error" hidden></div>
+            <p class="caption">Positive moves right and down. Range −0.25 to 0.25 in. Print the outlines on plain paper and hold it against a real sheet to check.</p>
+          </details>
+        </section>
+      </aside>
+      <section class="preview-well" id="well" aria-label="Preview">
+        <div id="stage"></div>
+        <div id="warnings" class="warnings"></div>
+      </section>
+    </div>
+    <div id="banners" class="banners" role="status"></div>
+    <div class="pdf-hint caption" id="pdf-hint">Saving a PDF doesn't mark anyone as printed. If you print it yourself, choose I printed these myself afterwards.</div>
+    <div class="bar">
+      <button id="cancel" class="btn" type="button">Cancel</button>
+      <button id="pdf" class="btn" type="button">Save as PDF…</button>
+      <button id="print" class="btn primary" type="button">Print…<span class="caption kbd">⌘↩</span></button>
+    </div>
+  </div>
+  <div id="overlay"></div>
+  <script src="../shared/geometry.js"></script>
+  <script src="../shared/settings.js"></script>
+  <script src="../shared/fit.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="icons.js"></script>
+  <script src="render.js"></script>
+  <script src="print.js"></script>
+</body>
+</html>

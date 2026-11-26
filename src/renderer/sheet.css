@@ -1,0 +1,47 @@
+/* Sheet rendering shared by the preview and the printed output.
+   All geometry is in "--ppi" (pixels per inch): 1in for output, smaller for the preview. */
+.sheet {
+  position: relative;
+  width: calc(8.5 * var(--ppi));
+  height: calc(11 * var(--ppi));
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-label);
+  overflow: hidden;
+}
+.cell {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.15;
+  overflow: visible;
+}
+.cell .line { white-space: nowrap; }
+.cell.outlined { outline: calc(0.01 * var(--ppi)) solid var(--color-ink); outline-offset: calc(-0.005 * var(--ppi)); }
+.cell.outlined.empty-cell { outline-style: dashed; }
+
+/* preview-only treatments */
+.sheet.preview .cell { cursor: pointer; }
+.sheet.preview .cell.skipped { background: var(--hatch); color: var(--color-text-muted); cursor: pointer; }
+.sheet.preview .cell.skipped .num { font: var(--text-caption); }
+.sheet.preview .cell.empty-cell .num { color: transparent; }
+.sheet.preview .cell:hover { background: var(--color-accent-tint); }
+.sheet.preview .cell.skipped:hover { background: var(--hatch), var(--color-accent-tint); }
+.sheet.preview .cell:focus-visible { outline: var(--size-focus-ring) solid var(--color-focus); outline-offset: calc(-1 * var(--size-focus-ring)); }
+.sheet.preview .cell.start { box-shadow: inset 0 0 0 var(--size-focus-ring) var(--color-accent); }
+.sheet.preview .cell.flag-nofit { outline: var(--size-focus-ring) solid var(--color-warning); outline-offset: calc(-1 * var(--size-focus-ring)); }
+.sheet.preview .cell.flag-small .badge, .sheet.preview .cell.flag-nofit .badge {
+  position: absolute; top: var(--space-1); right: var(--space-1); width: var(--size-icon); height: var(--size-icon); color: var(--color-warning);
+}
+.sheet.preview .cell.flag-small { box-shadow: inset 0 0 0 1px var(--color-warning); }
+
+@media print {
+  @page { size: 8.5in 11in; margin: 0; }
+  html, body { margin: 0; padding: 0; background: var(--color-paper); }
+  .sheet { break-after: page; page-break-after: always; }
+  .sheet:last-child { break-after: auto; page-break-after: auto; }
+}

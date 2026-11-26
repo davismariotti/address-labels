@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Address Labels</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div id="shell">
+    <nav id="sidebar" aria-label="Views">
+      <div class="side-drag"></div>
+      <div id="side-items"></div>
+    </nav>
+    <div id="app">
+      <div class="toolbar" id="toolbar">
+        <div class="search">
+          <span id="search-icon"></span>
+          <input id="search" class="input" type="search" placeholder="Search people" aria-label="Search people" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="segmented" id="filters" role="group" aria-label="Show"></div>
+        <button id="select-all" class="btn" type="button">Select all</button>
+        <button id="select-none" class="btn" type="button">Select none</button>
+        <div class="spacer"></div>
+        <span id="project-tools" hidden>
+          <button id="history-btn" class="btn" type="button" title="History (⌘Y)"><span id="history-icon"></span>History</button>
+          <button id="more-btn" class="btn icon-only" type="button" aria-label="More actions" aria-haspopup="menu"><span id="more-icon"></span></button>
+        </span>
+        <button id="add" class="btn" type="button"><span id="add-icon"></span><span id="add-label">Add person</span></button>
+      </div>
+      <div class="banners" id="banners" role="status"></div>
+      <div class="list" id="list" role="list" aria-label="People"></div>
+      <div class="footer">
+        <div class="summary" id="summary" aria-live="polite"></div>
+        <div class="footer-actions" id="footer-actions"></div>
+      </div>
+    </div>
+  </div>
+  <div id="overlay"></div>
+  <div id="toast-host"></div>
+  <script src="../shared/geometry.js"></script>
+  <script src="../shared/data.js"></script>
+  <script src="../shared/settings.js"></script>
+  <script src="../shared/projects.js"></script>
+  <script src="../shared/fit.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="icons.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+  <script src="sheets.js"></script>
+  <script src="boot.js"></script>
+</body>
+</html>

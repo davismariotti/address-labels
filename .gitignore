@@ -1,0 +1,52 @@
+# Dependencies and build output
+node_modules/
+dist/
+out/
+*.tgz
+
+# Test output
+test-results/
+playwright-report/
+coverage/
+.nyc_output/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.log
+npm-debug.log*
+
+# Environment / secrets
+.env
+.env.*
+
+# AI assistant tooling and spec-workflow files
+.claude/
+.codex/
+.cursor/
+.aider*
+.windsurf/
+.continue/
+.github/copilot-instructions.md
+.github/prompts/
+.gemini/
+.openspec/
+openspec/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+.mcp.json
+
+# Personal data: never commit real address data
+/addresses.json
+/projects.json
+/settings.json
+/addresses.pre-migration-*.json
+/addresses.broken-*.json
+/projects.broken-*.json
+/settings.pre-projects-*.json
+/backups/
+/logs/

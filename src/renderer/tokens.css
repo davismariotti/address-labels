@@ -1,0 +1,135 @@
+/* Design tokens. The only file allowed to contain literal colors and sizes. */
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #FFFFFF;
+  --color-surface: #F5F5F7;
+  --color-surface-2: #ECECF0;
+  --color-border: #D2D2D7;
+  --color-border-strong: #8A8A8E;
+  --color-text: #1D1D1F;
+  --color-text-muted: #636368;
+  --color-accent: #0066CC;
+  --color-accent-hover: #0058B0;
+  --color-accent-tint: #E6F0FA;
+  --color-on-accent: #FFFFFF;
+  --color-warning: #8A4B00;
+  --color-warning-bg: #FFF1DB;
+  --color-danger: #B3261E;
+  --color-danger-bg: #FDECEA;
+  --color-success: #1E6B34;
+  --color-success-bg: #E3F4E8;
+  --color-focus: #0A84FF;
+  --color-preview-well: #E4E4E8;
+  --color-paper: #FFFFFF;
+  --color-ink: #000000;
+  --color-toolbar-glass: rgba(245, 245, 247, 0.82);
+  --color-scrim: rgba(0, 0, 0, 0.32);
+  --color-hover-on-inverse: rgba(128, 128, 128, 0.3);
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-label: Helvetica, Arial, sans-serif;
+
+  --text-title: 600 20px/28px var(--font-ui);
+  --text-heading: 600 15px/22px var(--font-ui);
+  --text-body: 400 13px/20px var(--font-ui);
+  --text-name: 500 13px/18px var(--font-ui);
+  --text-caption: 400 11px/16px var(--font-ui);
+  --text-tooltip: 400 12px/16px var(--font-ui);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+
+  --size-toolbar: 56px;
+  --size-footer: 56px;
+  --size-row: 48px;
+  --size-control: 28px;
+  --size-control-small: 22px;
+  --size-hit: 24px;
+  --size-icon: 16px;
+  --size-icon-empty: 64px;
+  --size-traffic-inset: 80px;
+  --size-hairline: 1px;
+  --size-focus-ring: 2px;
+  --size-focus-offset: 2px;
+  --size-row-separator-inset: 44px;
+  --size-checkbox: 16px;
+  --size-copies-field: 56px;
+  --size-start-field: 64px;
+  --size-badge: 22px;
+  --width-settings: 320px;
+  --width-toast: 460px;
+  --width-modal: 440px;
+  --width-modal-wide: 520px;
+  --width-search: 220px;
+  --width-sidebar: 200px;
+  --width-menu: 240px;
+  --size-sidebar-row: 28px;
+  --size-sidebar-drag: 56px;
+  --size-history-max: 70vh;
+  --size-sheet-chrome: 120px;
+  --size-sheet-list-chrome: 200px;
+  --width-empty-text: 360px;
+  --size-check-left: 4px;
+  --size-check-top: 1px;
+  --size-check-w: 4px;
+  --size-check-h: 8px;
+  --size-check-stroke: 2px;
+  --line-height-field: 20px;
+  --blur-glass: 20px;
+
+  --shadow-dialog: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.18);
+  --shadow-paper: 0 1px 3px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  --hatch: repeating-linear-gradient(45deg, transparent 0 4px, var(--color-border) 4px 5px);
+
+  --dur-hover: 100ms;
+  --dur-dialog: 200ms;
+  --dur-page: 150ms;
+  --dur-banner: 160ms;
+  --dur-disclosure: 160ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1E1E1E;
+    --color-surface: #2A2A2C;
+    --color-surface-2: #343437;
+    --color-border: #48484A;
+    --color-border-strong: #8E8E93;
+    --color-text: #F5F5F7;
+    --color-text-muted: #A1A1A6;
+    --color-accent: #4DA3FF;
+    --color-accent-hover: #6BB3FF;
+    --color-accent-tint: #1F3247;
+    --color-on-accent: #0B0B0C;
+    --color-warning: #FFB340;
+    --color-warning-bg: #3A2C12;
+    --color-danger: #FF6961;
+    --color-danger-bg: #3D1F1D;
+    --color-success: #5BD17A;
+    --color-success-bg: #16301F;
+    --color-focus: #64B5FF;
+    --color-preview-well: #161618;
+    --color-toolbar-glass: rgba(42, 42, 44, 0.82);
+    --color-scrim: rgba(0, 0, 0, 0.5);
+    --shadow-dialog: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-hover: 0ms;
+    --dur-dialog: 0ms;
+    --dur-page: 0ms;
+    --dur-banner: 0ms;
+    --dur-disclosure: 0ms;
+  }
+}
