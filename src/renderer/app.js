@@ -290,7 +290,13 @@
       row.addEventListener('dblclick', (e) => { if (!e.target.closest('input,button')) App.openForm(p); });
       row.addEventListener('contextmenu', (e) => { e.preventDefault(); state.focusedId = p.id; rowMenu(p, { x: e.clientX, y: e.clientY }); });
     }
-    row.addEventListener('click', () => { state.focusedId = p.id; });
+    row.addEventListener('click', (e) => {
+      state.focusedId = p.id;
+      // Clicking anywhere on the row ticks it, except on its own controls or while selecting text.
+      if (archived || e.target.closest('input, button, .copies') || String(window.getSelection()).length) return;
+      const cb = row.querySelector('input.check');
+      if (cb) { cb.checked = !cb.checked; toggle(p.id, cb.checked); }
+    });
     return row;
   }
 
@@ -617,6 +623,29 @@
   }
   App.openPrint = openPrint;
 
+  /** A sheet of dummy labels, not tied to any project or person, for checking how a printer lines up. Nothing is recorded. */
+  function openAlignmentTest() {
+    const labels = Array.from({ length: 30 }, (_, i) => ({ id: `test-${i + 1}`, lines: [`Test label ${i + 1}`, 'Sample Name', '123 Example Street', 'Anytown, ST 12345'] }));
+    window.api.openPrint({ labels, noAddress: [], held: [], reprint: [], test: true });
+  }
+  App.openAlignmentTest = openAlignmentTest;
+
+  /** Esc un-ticks everyone (with Undo), unless something else (a sheet, a menu, the search box) wants the key. */
+  function onEscape(e) {
+    if (e.key !== 'Escape' || e.defaultPrevented || UI.sheetOpen() || archivedView()) return;
+    const pr = project();
+    const before = pr ? selectedIds(pr) : [...state.ticks];
+    if (!before.length) return;
+    e.preventDefault();
+    clearSelection();
+    if (document.activeElement && document.activeElement.matches && document.activeElement.matches('input[type=text], textarea')) document.activeElement.blur();
+    Toast.show({ message: `Cleared ${plural(before.length, 'selection', 'selections')}.`, actions: [{ label: 'Undo', run: () => {
+      const cur = project();
+      if (pr && cur && cur.id === pr.id) updateProject(S.setSelection(cur, before));
+      else if (!pr && !cur) { before.forEach((id) => state.ticks.add(id)); renderAll(); }
+    } }] });
+  }
+
   function onPrintCompleted(d) {
     const pr = state.projects.find((p) => p.id === d.projectId);
     if (!pr || S.isArchived(pr)) return;
@@ -730,6 +759,7 @@
       case 'undo': if (!Toast.undo()) { const f = state.undoStack.pop(); if (f) f(); } break;
       case 'redo': break;
       case 'find': $('#search').focus(); $('#search').select(); break;
+      case 'alignment-test': openAlignmentTest(); break;
       case 'select-all': if (inField) document.execCommand('selectAll'); else selectShown(true); break;
       case 'restore-backup': restoreFromMenu(); break;
       default: break;
@@ -751,6 +781,7 @@
     $('#more-btn').addEventListener('click', (e) => { if (project()) UI.showMenu(projectMenuItems(), e.currentTarget, { alignRight: true }); });
     $('#list').addEventListener('keydown', onListKey);
     window.api.onMenu(onMenu);
+    document.addEventListener('keydown', onEscape);
     window.api.onPrintCompleted(onPrintCompleted);
     window.addEventListener('blur', () => document.body.classList.add('window-inactive'));
     window.addEventListener('focus', () => document.body.classList.remove('window-inactive'));

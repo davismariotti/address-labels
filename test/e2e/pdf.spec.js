@@ -39,6 +39,7 @@ async function exportPdf({ startCell, nudge, pick }) {
   await win.fill('.modal input[aria-label="Project name"]', 'PDF test');
   await win.click('.modal .btn.primary');
   await win.waitForSelector('#print');
+  await win.click('#select-all'); // recipients start unticked
   await win.click('#print');
   const pw = await H.printWindow(app);
   if (nudge) {

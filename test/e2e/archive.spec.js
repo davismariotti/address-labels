@@ -117,7 +117,7 @@ test('Copy to new project from an archive: preselected, recipients and copies ca
   await expect(win.locator('.row')).toHaveCount(3);
   await expect(H.row(win, 'Bea and Jo').locator('.badge-copies')).toHaveText('×2');
   await expect(win.locator('.row .chip')).toHaveText(['Not printed', 'Not printed', 'Not printed']);
-  await expect(win.locator('.row input.check:checked')).toHaveCount(3);
+  await expect(win.locator('.row input.check:checked')).toHaveCount(0);
   await app.close();
 });
 

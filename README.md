@@ -16,6 +16,8 @@ printing begins.
 - **One sheet at a time** for hand-fed printers, with a **start cell** chosen in the print dialog
   (it resets to cell 1 each time, so no sheet state is kept).
 - **On hold**: mark someone as needing an address update. They are skipped when printing in every project.
+- **Alignment test**: *File ▸ Print Alignment Test Page…* prints 30 dummy labels with outlines (no data needed, nothing recorded) so you can check your printer on plain paper.
+- **Quick selection**: click anywhere on a row to tick it, **Select all** skips on-hold and already-printed people, and **Esc** un-ticks everyone (with Undo). Recipients start unticked.
 - **Archive** a finished project to freeze it as a read-only snapshot.
 - **Print preview**, text that **shrinks to fit** the label (12 pt down to 7 pt), light and dark themes, and
   rolling backups of your data.

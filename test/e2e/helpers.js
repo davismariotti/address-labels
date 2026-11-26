@@ -75,6 +75,7 @@ async function createProject(win, name, who = 'all') {
   await win.fill('.modal input[aria-label="Project name"]', name);
   await win.click('.modal .btn.primary');
   await win.waitForSelector(`.side-item[aria-current="page"]:has-text("${name}")`);
+  if (who) await win.click('#select-all'); // recipients start unticked; most tests want them all ticked
 }
 
 /** In a project: click Print Labels…, then Print… in the dialog (use ADDRESS_LABELS_TEST_PRINT=ok). */

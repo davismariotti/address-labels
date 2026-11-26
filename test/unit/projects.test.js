@@ -16,7 +16,8 @@ const T = (n) => `2026-12-${String(n).padStart(2, '0')}T10:00:00.000Z`;
 
 function projectWith(personIds, copies = {}) {
   const p0 = P.makeProject('Christmas 2026', T(1));
-  return P.addRecipients(p0, personIds.map((personId) => ({ personId, copies: copies[personId] || 1 }))).project;
+  const added = P.addRecipients(p0, personIds.map((personId) => ({ personId, copies: copies[personId] || 1 }))).project;
+  return P.setSelection(added, personIds); // most tests want everyone ticked; the defaults are tested separately
 }
 const printLabels = (project, people = PEOPLE) => P.printableLabels(project, byId(people));
 const printRun = (project, personIds, at, people = PEOPLE) => {
@@ -34,7 +35,7 @@ test('create trims the name and starts empty', () => {
   assert.ok(p.id);
 });
 
-test('add recipients: new ones are selected, existing skipped, other selections unchanged', () => {
+test('add recipients: new ones start unselected, existing skipped, other selections unchanged', () => {
   let p = projectWith(['a', 'b']);
   p = P.setSelected(p, ['a'], false);
   const r = P.addRecipients(p, [{ personId: 'b', copies: 5 }, { personId: 'c', copies: 3 }]);
@@ -42,7 +43,8 @@ test('add recipients: new ones are selected, existing skipped, other selections 
   assert.equal(r.skipped, 1);
   const by = new Map(r.project.recipients.map((x) => [x.personId, x]));
   assert.equal(by.get('a').selected, false);
-  assert.equal(by.get('c').selected, true);
+  assert.equal(by.get('b').selected, true);
+  assert.equal(by.get('c').selected, false);
   assert.equal(by.get('c').copies, 3);
   assert.equal(by.get('b').copies, 1);
 });
@@ -55,13 +57,13 @@ test('copies clamp to 1..99 and invalid input is ignored', () => {
   p = P.setCopies(p, 'a', 4); assert.equal(p.recipients[0].copies, 4);
 });
 
-test('copy a project: recipients and copies carried, everyone selected, no runs', () => {
+test('copy a project: recipients and copies carried, nobody selected, no runs', () => {
   let p = projectWith(['a', 'b'], { a: 3 });
   p = P.setSelected(p, ['b'], false);
   p = printRun(P.setSelected(p, ['a'], true), ['a'], T(2));
   const c = P.copyProject(p, 'Christmas 2027', T(5));
   assert.notEqual(c.id, p.id);
-  assert.deepEqual(c.recipients, [{ personId: 'a', copies: 3, selected: true }, { personId: 'b', copies: 1, selected: true }]);
+  assert.deepEqual(c.recipients, [{ personId: 'a', copies: 3, selected: false }, { personId: 'b', copies: 1, selected: false }]);
   assert.deepEqual(c.runs, []);
   assert.equal(state(c, 'a').state, 'not-printed');
 });
@@ -419,4 +421,10 @@ test('archive survives validation with its snapshot', () => {
   const { projects } = P.validateProjects([JSON.parse(JSON.stringify(a))]);
   assert.equal(P.isArchived(projects[0]), true);
   assert.equal(projects[0].snapshot.length, 1);
+});
+
+test('a new project with added people starts with nobody ticked, so nothing prints until chosen', () => {
+  const p = P.addRecipients(P.makeProject('Mailing', T(1)), ids('a', 'b')).project;
+  assert.deepEqual(p.recipients.map((r) => r.selected), [false, false]);
+  assert.deepEqual(printLabels(p), []);
 });

@@ -52,7 +52,7 @@ test('creating an empty project: validation, duplicate warning, empty state, sav
   await app.close();
 });
 
-test('new project from the Address book ticks: fixed line instead of Start from, ticks cleared, all selected', async () => {
+test('new project from the Address book ticks: fixed line instead of Start from, ticks cleared, nobody ticked yet', async () => {
   const { app, win } = await open();
   await H.checkNames(win, ['Pip', 'Bea and Jo', 'Ned and Zoë Birch']);
   await win.click('#new-from-selection');
@@ -61,13 +61,15 @@ test('new project from the Address book ticks: fixed line instead of Start from,
   await win.fill('.modal input[aria-label="Project name"]', 'Announcement');
   await win.click('.modal .btn.primary');
   await expect(win.locator('.row')).toHaveCount(3);
+  await expect(win.locator('.row input.check:checked')).toHaveCount(0);
+  await win.click('#select-all');
   await expect(win.locator('#summary')).toContainText('3 people · 3 labels · 1 sheet');
   await win.click('.side-item[data-view="book"]');
   await expect(win.locator('#summary')).toContainText('Nothing ticked');
   await app.close();
 });
 
-test('new project as a copy: recipients and copies carried, everyone selected, no status or history', async () => {
+test('new project as a copy: recipients and copies carried, nobody ticked, no status or history', async () => {
   const src = H.project('Christmas 2025', ['p0', 'p5'], {
     runs: [H.printRun([['p0', 'The Alder Family', ['3008 Sample Lane', 'Exampleton, TX 70001']]])],
   });
@@ -81,7 +83,7 @@ test('new project as a copy: recipients and copies carried, everyone selected, n
   await expect(win.locator('.row')).toHaveCount(2);
   await expect(H.row(win, 'The Alder Family').locator('.badge-copies')).toHaveText('×3');
   await expect(win.locator('.row .chip')).toHaveText(['Not printed', 'Not printed']);
-  await expect(win.locator('.row input.check:checked')).toHaveCount(2);
+  await expect(win.locator('.row input.check:checked')).toHaveCount(0);
   await H.settle();
   const projects = H.readProjects(dir);
   expect(projects.find((p) => p.name === 'Christmas 2026').runs).toEqual([]);
@@ -89,7 +91,7 @@ test('new project as a copy: recipients and copies carried, everyone selected, n
   await app.close();
 });
 
-test('Add people from the address book: disabled "In project" rows, new ones selected, others unchanged', async () => {
+test('Add people from the address book: disabled "In project" rows, new ones unticked, others unchanged', async () => {
   const pr = H.project('Mailing', ['p0', 'p1']);
   const { app, win } = await open({ projects: [pr], settings: { activeView: pr.id } });
   await H.row(win, 'The Alder Family').first().locator('input.check').uncheck();
@@ -104,8 +106,8 @@ test('Add people from the address book: disabled "In project" rows, new ones sel
   await win.click('#add-n');
   await expect(toast(win)).toHaveText('Added 2 people to Mailing.');
   await expect(win.locator('.row')).toHaveCount(4);
-  await expect(H.row(win, 'Pip').locator('input.check')).toBeChecked();
-  await expect(win.locator('.row input.check:not(:checked)')).toHaveCount(1); // the one unselected before adding
+  await expect(H.row(win, 'Pip').locator('input.check')).not.toBeChecked();
+  await expect(win.locator('.row input.check:checked')).toHaveCount(1); // only the one that was already ticked
   await app.close();
 });
 

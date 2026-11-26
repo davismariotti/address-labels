@@ -16,12 +16,14 @@
 
   const init = await window.api.printInit();
   let labels = init.payload.labels;
-  if (init.payload.projectName) document.title = `Print Labels — ${init.payload.projectName}`;
+  const isTest = !!init.payload.test; // dummy labels for checking printer alignment: nothing is recorded
+  if (isTest) document.title = 'Print Alignment Test';
+  else if (init.payload.projectName) document.title = `Print Labels — ${init.payload.projectName}`;
   const noAddress = init.payload.noAddress || [];
   const held = init.payload.held || [];
   const reprint = init.payload.reprint || [];
   const state = {
-    startCell: 1, outlines: false, page: 0,
+    startCell: 1, outlines: isTest, page: 0,
     nudge: { ...init.settings.nudge },
     hasPrinter: true,
     scope: init.settings.printScope === 'all' ? 'all' : 'sheet', // "This sheet" prints one sheet at a time, for hand-loading
@@ -34,6 +36,8 @@
   $('#start-inc').append(icon('chevron-down'));
   $('#start-inc svg').style.transform = 'rotate(180deg)';
   document.querySelector('.chev').append(icon('chevron-down'));
+  $('#outlines').checked = isTest;
+  if (isTest) { $('#pdf-hint').hidden = true; $('#start-help').textContent = 'Test on a partly used sheet by choosing its first free cell.'; }
   $('#nudge-x').value = String(state.nudge.x);
   $('#nudge-y').value = String(state.nudge.y);
 

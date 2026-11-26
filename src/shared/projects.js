@@ -24,7 +24,7 @@
   }
   function rename(project, name) { return { ...project, name: normText(name) }; }
 
-  /** specs: [{personId, copies}]. New recipients are selected; existing ones are skipped. */
+  /** specs: [{personId, copies}]. New recipients start unselected; existing ones are skipped. */
   function addRecipients(project, specs) {
     const have = new Set(project.recipients.map((r) => r.personId));
     const added = [];
@@ -34,7 +34,7 @@
       if (have.has(s.personId)) { skipped++; continue; }
       have.add(s.personId);
       added.push(s.personId);
-      recipients.push({ personId: s.personId, copies: clampCopies(s.copies, 1), selected: true });
+      recipients.push({ personId: s.personId, copies: clampCopies(s.copies, 1), selected: false });
     }
     return { project: { ...project, recipients }, added, skipped };
   }
@@ -54,11 +54,11 @@
     const set = new Set(ids);
     return { ...project, recipients: project.recipients.map((r) => ({ ...r, selected: set.has(r.personId) })) };
   }
-  /** Copy recipients and copies, everyone selected, no runs. */
+  /** Copy recipients and copies, nobody selected, no runs. */
   function copyProject(src, name, now = nowIso()) {
     return {
       id: makeId(), name: normText(name), createdAt: now, runs: [],
-      recipients: src.recipients.map((r) => ({ personId: r.personId, copies: r.copies, selected: true })),
+      recipients: src.recipients.map((r) => ({ personId: r.personId, copies: r.copies, selected: false })),
     };
   }
 
@@ -241,7 +241,7 @@
     const ids = (Array.isArray(checkedIds) ? checkedIds : []).filter((id) => typeof id === 'string' && byId.has(id));
     if (!ids.length) return null;
     const { project } = addRecipients(makeProject(MIGRATED_NAME, now), ids.map((id) => ({ personId: id, copies: copiesOf(byId.get(id)) })));
-    return project;
+    return setSelection(project, ids); // the old checked list stays checked
   }
   /** Validate raw projects; unknown fields are preserved. */
   function validateProjects(rawList) {

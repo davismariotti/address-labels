@@ -77,7 +77,7 @@ function openPrintWindow(payload) {
   printWindow = new BrowserWindow({
     width: 960, height: 680, minWidth: 920, minHeight: 640,
     parent: mainWindow, modal: true,
-    title: payload.projectName ? `Print Labels — ${payload.projectName}` : 'Print Labels',
+    title: payload.test ? 'Print Alignment Test' : payload.projectName ? `Print Labels — ${payload.projectName}` : 'Print Labels',
     minimizable: false, maximizable: false,
     show: false,
     webPreferences,
@@ -274,6 +274,7 @@ function buildMenu() {
       { type: 'separator' },
       { label: 'Print Labels…', accelerator: 'CmdOrCtrl+P', click: () => send('print') },
       { label: 'Save as PDF…', click: () => send('save-pdf') },
+      { label: 'Print Alignment Test Page…', click: () => send('alignment-test') },
       { type: 'separator' },
       { label: 'Restore from Backup…', click: () => send('restore-backup') },
       { label: 'Show Data Folder in Finder', click: () => shell.showItemInFolder(fs.existsSync(store.file) ? store.file : dataDir) },
